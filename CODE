@@ -1,0 +1,47 @@
+#include <LiquidCrystal.h>
+#include <Servo.h>
+LiquidCrystal lcd(11,10,7,6,5,4);
+Servo myservo; 
+int pos = 0; 
+void setup() {
+Serial.begin(9600);
+pinMode(2,INPUT);
+myservo.attach(9);
+}
+void loop() 
+{
+int speed;
+int r= digitalRead(2);
+if(r==0)
+{
+speed=1000;
+lcd.setCursor(0,0);
+lcd.print("inten:low [ ]cm");
+lcd.print("wipper: slow");
+for (pos = 180; pos >= 0; pos--) {
+ myservo.write(pos); 
+delay(8); 
+}
+for (pos = 0; pos <= 180; pos++) { 
+ myservo.write(pos); 
+ delay(8); 
+}
+delay(speed);
+}
+else if(r==1)
+{
+speed=10;
+lcd.setCursor(0,0);
+lcd.print("inten:high [ ]cm");
+lcd.print("wipper: fast");
+for (pos = 180; pos >= 0; pos--) {
+ myservo.write(pos); 
+delay(2); 
+ }
+for (pos = 0; pos <= 180; pos++) { 
+ myservo.write(pos); 
+delay(2); 
+ }
+delay(speed);
+}
+}
